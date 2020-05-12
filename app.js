@@ -40,4 +40,17 @@ app.get('/artist-search', (req, res) => {
 		.catch((err) => console.log('The error while searching artists occurred: ', err));
 });
 
+app.get('/albums/:artistId', (req, res) => {
+	let artistId = req.params.artistId;
+	spotifyApi.getArtistAlbums(artistId, { limit: 10, offset: 20 }).then(
+		function(data) {
+			console.log('Album information', data.body.items);
+			res.render('albums.hbs', { albums: data.body.items });
+		},
+		function(err) {
+			console.error(err);
+		}
+	);
+});
+
 app.listen(3000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));
